@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { HealthCheckModule } from "@modules/health-check/health-check.module";
 
 import { MikroOrmConfig } from "./database/db.config";
+import { StudyDefinitionModule } from "./modules/study-definition/study-definition.module";
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MikroOrmConfig } from "./database/db.config";
       inject: [ConfigService],
     }),
     HealthCheckModule,
+    StudyDefinitionModule,
   ],
   controllers: [],
   providers: [],
