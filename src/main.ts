@@ -20,10 +20,10 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("swagger", app, document);
+  SwaggerModule.setup("docs", app, document);
 
   await app.listen(80);
   console.log("Application is running on: http://localhost:3000");
-  console.log("Swagger is available on: http://localhost:3000/swagger");
+  console.log("Swagger is available on: http://localhost:3000/docs");
 }
 void bootstrap();

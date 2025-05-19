@@ -42,7 +42,7 @@ docker compose up --build
 ```
 
 - Exposes API at: <http://localhost:3000>
-- Swagger Docs: <http://localhost:3000/swagger>
+- Swagger Docs: <http://localhost:3000/docs>
 - Health Check: <http://localhost:3000/health>
 
 ### 4. Running Tests
