@@ -23,7 +23,10 @@
       "@common/*": ["src/common/*"],
       "@config/*": ["src/config/*"],
       "@utils/*": ["src/utils/*"]
-    },
+    }
   },
-  "include": ["src", "test"],
+  "watchOptions": {
+    "watchFile": "fixedPollingInterval"
+  },
+  "include": ["src", "test"]
 }
