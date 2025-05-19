@@ -19,17 +19,28 @@
     "test:unit": "jest --config ./test/jest.unit.json",
     "test:integration": "jest --config ./test/jest.integration.json",
     "test:e2e": "jest --config ./test/jest.e2e.json",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "migration:generate": "mikro-orm migration:create",
+    "migration:up": "mikro-orm migration:up",
+    "migration:down": "mikro-orm migration:down",
+    "migration:list": "mikro-orm migration:list",
+    "migration:pending": "mikro-orm migration:pending",
+    "migration:check": "mikro-orm migration:check",
+    "migration:fresh": "mikro-orm migration:fresh"
   },
   "dependencies": {
     "@mikro-orm/core": "^6.4.15",
+    "@mikro-orm/entity-generator": "^6.4.15",
+    "@mikro-orm/migrations": "^6.4.15",
     "@mikro-orm/nestjs": "^6.1.1",
     "@mikro-orm/postgresql": "^6.4.15",
+    "@mikro-orm/sql-highlighter": "^1.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
+    "dotenv": "^16.5.0",
     "pg": "^8.16.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
@@ -37,6 +48,8 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
+    "@mikro-orm/cli": "^6.4.15",
+    "@mikro-orm/seeder": "^6.4.15",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
@@ -60,6 +73,12 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
+  },
+  "mikro-orm": {
+    "tsConfigPath": "./tsconfig.json",
+    "configPaths": [
+      "./src/database/mikro-orm.config.ts"
+    ]
   },
   "jest": {
     "moduleFileExtensions": [
