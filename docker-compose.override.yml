@@ -1,0 +1,4 @@
+services:
+  backend:
+    environment:
+      - NODE_ENV=development
