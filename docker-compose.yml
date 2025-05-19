@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: runner
     env_file: .env
     ports:
       - "${WEB_PORT:-80}:80"

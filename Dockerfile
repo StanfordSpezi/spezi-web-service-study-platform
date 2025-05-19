@@ -5,6 +5,10 @@
 # SPDX-License-Identifier: MIT
 
 # Use an official Node.js runtime as the base image
+
+# ----------------------------------------
+# 1. Base for installing dependencies
+# ----------------------------------------
 FROM node:23-alpine AS builder
 
 WORKDIR /app
@@ -17,8 +21,21 @@ COPY . .
 
 RUN npm run build
 
-# Use a smaller Node.js runtime for production
-FROM node:23-alpine AS runner
+# ----------------------------------------
+# 2. Development with hot reloading
+# ----------------------------------------
+FROM builder AS dev
+
+RUN npm install -g @nestjs/cli
+
+EXPOSE 80
+
+CMD ["npm", "run", "start:dev"]
+
+# ----------------------------------------
+# 3. Slim Production Runner
+# ----------------------------------------
+FROM builder AS runner
 
 WORKDIR /app
 
@@ -27,7 +44,6 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 
-# Expose the application port
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["node", "dist/main.js"]
