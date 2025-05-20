@@ -5,11 +5,12 @@
 // SPDX-License-Identifier: MIT
 
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { UUID } from "crypto";
 
-@Entity()
+@Entity({ abstract: true })
 export abstract class BaseEntity {
   @PrimaryKey()
-  id!: number;
+  id!: UUID;
 
   @Property({ type: "date", defaultRaw: "now()" })
   createdAt: Date = new Date();
