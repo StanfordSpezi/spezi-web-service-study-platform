@@ -1,5 +1,7 @@
-import { Entity, PrimaryKey, ManyToOne, Property } from "@mikro-orm/core";
+import { Entity, PrimaryKey, ManyToOne, Property, Enum } from "@mikro-orm/core";
 import { StudyDefinition } from "./study-definition.entity";
+import { GroupingType } from "../enum/grouping-type";
+import { ParticipationCriteriaType } from "../enum/participation-criteria-type";
 
 @Entity()
 export class ParticipationCriterion {
@@ -9,14 +11,15 @@ export class ParticipationCriterion {
   @ManyToOne(() => StudyDefinition)
   studyDefinition: StudyDefinition;
 
-  @Property()
-  type: string;
+  @Enum(() => ParticipationCriteriaType)
+  type: ParticipationCriteriaType;
 
   @Property()
   value: string;
 
+  @Enum(() => GroupingType)
   @Property({ nullable: true })
-  grouping?: string;
+  grouping?: GroupingType;
 
   @ManyToOne(() => ParticipationCriterion, { nullable: true })
   parent?: ParticipationCriterion;
