@@ -1,0 +1,9 @@
+services:
+  backend:
+    build:
+      target: dev
+    volumes:
+      - .:/app
+      - /app/node_modules  # prevent host node_modules from conflicting
+    environment:
+      - NODE_ENV=development
