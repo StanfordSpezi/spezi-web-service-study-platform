@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, Enum, PrimaryKey, Property } from "@mikro-orm/core";
+import { ComponentType } from "../enum/component-type";
 
 @Entity()
 export class ComponentDefinition {
@@ -8,8 +9,8 @@ export class ComponentDefinition {
   @Property()
   schemaVersion: string;
 
-  @Property()
-  type: string;
+  @Enum(() => ComponentType)
+  type: ComponentType;
 
   @Property()
   title: string;
