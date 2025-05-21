@@ -25,6 +25,10 @@ export default defineConfig({
   dbName: process.env.DB_NAME,
   entities: ["dist/**/*.entity.js"],
   entitiesTs: ["src/**/*.entity.ts"],
+  seeder: {
+    path: "./src/database/seeds",
+    defaultSeeder: "DatabaseSeeder",
+  },
   migrations: {
     path: "dist/database/migrations",
     pathTs: "src/database/migrations",
