@@ -15,7 +15,7 @@ services:
 
   postgres:
     container_name: spezi-study-platform_db
-    image: postgres:16
+    image: postgres:17
     env_file: .env
     ports:
       - "${DB_PORT}:5432"
