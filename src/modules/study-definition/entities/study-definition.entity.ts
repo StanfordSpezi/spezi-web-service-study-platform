@@ -8,12 +8,12 @@ import {
 } from "@mikro-orm/core";
 import { ComponentInstance } from "./component-instance";
 import { EnrollmentCondition } from "./enrollment-condition";
-import { ParticipationCriterion } from "./participation-criterion";
+import { ParticipationCriteria } from "./participation-criteria";
 
 @Entity()
 export class StudyDefinition {
-  @PrimaryKey()
-  studyDefinitionId: string;
+  @PrimaryKey({ type: "uuid", defaultRaw: "gen_random_uuid()" })
+  id: string;
 
   @Property()
   schemaVersion: string;
@@ -41,10 +41,10 @@ export class StudyDefinition {
   enrollmentCondition?: EnrollmentCondition;
 
   @OneToMany(
-    () => ParticipationCriterion,
+    () => ParticipationCriteria,
     (criterion) => criterion.studyDefinition,
   )
-  participationCriteria = new Collection<ParticipationCriterion>(this);
+  participationCriteria = new Collection<ParticipationCriteria>(this);
 
   @OneToMany(() => ComponentInstance, (instance) => instance.studyDefinition)
   componentInstances = new Collection<ComponentInstance>(this);

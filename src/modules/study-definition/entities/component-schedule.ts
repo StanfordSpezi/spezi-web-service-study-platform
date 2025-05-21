@@ -3,8 +3,8 @@ import { ComponentInstance } from "./component-instance";
 
 @Entity()
 export class ComponentSchedule {
-  @PrimaryKey()
-  componentScheduleId: string;
+  @PrimaryKey({ type: "uuid", defaultRaw: "gen_random_uuid()" })
+  id: string;
 
   @OneToOne(() => ComponentInstance)
   componentInstance: ComponentInstance;

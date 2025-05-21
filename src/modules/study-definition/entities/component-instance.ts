@@ -11,8 +11,8 @@ import { StudyDefinition } from "./study-definition.entity";
 
 @Entity()
 export class ComponentInstance {
-  @PrimaryKey()
-  componentInstanceId: string;
+  @PrimaryKey({ type: "uuid", defaultRaw: "gen_random_uuid()" })
+  id: string;
 
   @ManyToOne(() => StudyDefinition)
   studyDefinition: StudyDefinition;
