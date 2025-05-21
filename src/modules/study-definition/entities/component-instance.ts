@@ -1,0 +1,39 @@
+import {
+  Entity,
+  ManyToOne,
+  OneToOne,
+  PrimaryKey,
+  Property,
+} from "@mikro-orm/core";
+import { ComponentDefinition } from "./component-definition";
+import { ComponentSchedule } from "./component-schedule";
+import { StudyDefinition } from "./study-definition.entity";
+
+@Entity()
+export class ComponentInstance {
+  @PrimaryKey()
+  componentInstanceId: string;
+
+  @ManyToOne(() => StudyDefinition)
+  studyDefinition: StudyDefinition;
+
+  @ManyToOne(() => ComponentDefinition)
+  componentDefinition: ComponentDefinition;
+
+  @Property({ type: "json" })
+  details: Record<string, any>;
+
+  @Property()
+  displayOrder: number;
+
+  @Property()
+  createdAt: Date = new Date();
+
+  @Property()
+  updatedAt: Date = new Date();
+
+  @OneToOne(() => ComponentSchedule, (schedule) => schedule.componentInstance, {
+    nullable: true,
+  })
+  schedule?: ComponentSchedule;
+}
