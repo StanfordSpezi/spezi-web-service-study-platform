@@ -1,16 +1,17 @@
-import { Entity, Enum, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, Enum, PrimaryKey, Property, Unique } from "@mikro-orm/core";
 import { ComponentType } from "../enum/component-type";
 
 @Entity()
+@Unique({ properties: ["type", "schemaVersion"] })
 export class ComponentDefinition {
-  @PrimaryKey()
-  componentDefinitionId: string;
-
-  @Property()
-  schemaVersion: string;
+  @PrimaryKey({ type: "uuid", defaultRaw: "gen_random_uuid()" })
+  id: string;
 
   @Enum(() => ComponentType)
   type: ComponentType;
+
+  @Property()
+  schemaVersion: string;
 
   @Property()
   title: string;

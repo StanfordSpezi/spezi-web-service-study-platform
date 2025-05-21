@@ -4,9 +4,9 @@ import { GroupingType } from "../enum/grouping-type";
 import { ParticipationCriteriaType } from "../enum/participation-criteria-type";
 
 @Entity()
-export class ParticipationCriterion {
-  @PrimaryKey()
-  criterionId: string;
+export class ParticipationCriteria {
+  @PrimaryKey({ type: "uuid", defaultRaw: "gen_random_uuid()" })
+  id: string;
 
   @ManyToOne(() => StudyDefinition)
   studyDefinition: StudyDefinition;
@@ -21,6 +21,6 @@ export class ParticipationCriterion {
   @Property({ nullable: true })
   grouping?: GroupingType;
 
-  @ManyToOne(() => ParticipationCriterion, { nullable: true })
-  parent?: ParticipationCriterion;
+  @ManyToOne(() => ParticipationCriteria, { nullable: true })
+  parent?: ParticipationCriteria;
 }
