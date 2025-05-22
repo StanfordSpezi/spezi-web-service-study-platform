@@ -5,6 +5,12 @@
 // SPDX-License-Identifier: MIT
 
 import { Injectable } from "@nestjs/common";
+import { CreateStudyDefinitionDto } from "./dto/create-study-definition.dto";
 
 @Injectable()
-export class StudyDefinitionService {}
+export class StudyDefinitionService {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  create(_: CreateStudyDefinitionDto): Promise<string> {
+    throw new Error("Not implemented");
+  }
+}
