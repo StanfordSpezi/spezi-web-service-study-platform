@@ -4,12 +4,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Controller } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { StudyDefinitionService } from "./study-definition.service";
+import { CreateStudyDefinitionDto } from "./dto/create-study-definition.dto";
 
 @Controller("study-definition")
 export class StudyDefinitionController {
   constructor(
     private readonly studyDefinitionService: StudyDefinitionService,
   ) {}
+
+  @Post()
+  async create(@Body() dto: CreateStudyDefinitionDto) {
+    return this.studyDefinitionService.create(dto);
+  }
 }
