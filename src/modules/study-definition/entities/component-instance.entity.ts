@@ -5,8 +5,8 @@ import {
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { ComponentDefinition } from "./component-definition";
-import { ComponentSchedule } from "./component-schedule";
+import { ComponentDefinition } from "./component-definition.entity";
+import { ComponentSchedule } from "./component-schedule.entity";
 import { StudyDefinition } from "./study-definition.entity";
 
 @Entity()

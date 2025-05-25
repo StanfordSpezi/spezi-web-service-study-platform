@@ -6,9 +6,9 @@ import {
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { ComponentInstance } from "./component-instance";
-import { EnrollmentCondition } from "./enrollment-condition";
-import { ParticipationCriteria } from "./participation-criteria";
+import { ComponentInstance } from "./component-instance.entity";
+import { EnrollmentCondition } from "./enrollment-condition.entity";
+import { ParticipationCriteria } from "./participation-criteria.entity";
 
 @Entity()
 export class StudyDefinition {
