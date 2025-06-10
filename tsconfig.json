@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -20,11 +21,12 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["src/*"],
+      "@database/*": ["src/database/*"],
       "@modules/*": ["src/modules/*"],
       "@common/*": ["src/common/*"],
       "@config/*": ["src/config/*"],
       "@utils/*": ["src/utils/*"]
-    }
+    },
   },
   "watchOptions": {
     "watchFile": "fixedPollingInterval"

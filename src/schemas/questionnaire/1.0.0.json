@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "resourceType": { "type": "string", "const": "Questionnaire" },
+    "title": { "type": "string" },
+    "status": { "type": "string", "enum": ["draft", "active"] },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "linkId": { "type": "string" },
+          "text": { "type": "string" },
+          "type": { "type": "string" }
+        },
+        "required": ["linkId", "text", "type"]
+      }
+    }
+  },
+  "required": ["resourceType", "title", "status"],
+  "additionalProperties": false
+}

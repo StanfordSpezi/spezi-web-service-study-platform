@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "expectedTypes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "collectionWindowDays": { "type": "integer" },
+    "sampling": { "type": "string", "enum": ["daily", "hourly", "onEvent"] }
+  },
+  "required": ["expectedTypes", "collectionWindowDays"],
+  "additionalProperties": false
+}
