@@ -1,4 +1,4 @@
-export class CreateComponentScheduleDto {
+export class ComponentScheduleDto {
   completionPolicy: string;
   startOffsetDays: number;
   repeatMetadata?: {

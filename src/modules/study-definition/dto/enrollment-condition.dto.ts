@@ -1,4 +1,4 @@
-export class CreateEnrollmentConditionDto {
+export class EnrollmentConditionDto {
   requiresInvite: boolean;
   inviteUrl?: string;
 }

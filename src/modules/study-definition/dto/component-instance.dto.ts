@@ -1,5 +1,5 @@
 import { HealthDataCollectionSchema } from "@/types/health-data-collection-schema.dto";
-import { CreateComponentScheduleDto } from "./create-component-schedule.dto";
+import { ComponentScheduleDto } from "./component-schedule.dto";
 import { ApiExtraModels, ApiProperty, getSchemaPath } from "@nestjs/swagger";
 import { QuestionnaireSchema } from "@/types/questionnaire-schema.dto";
 import { InformationalSchema } from "@/types/informational-schema.dto";
@@ -9,7 +9,7 @@ import { InformationalSchema } from "@/types/informational-schema.dto";
   QuestionnaireSchema,
   InformationalSchema,
 )
-export class CreateComponentInstanceDto {
+export class ComponentInstanceDto {
   componentDefinitionId: string;
   displayOrder: number;
   @ApiProperty({
@@ -24,5 +24,5 @@ export class CreateComponentInstanceDto {
     | HealthDataCollectionSchema
     | QuestionnaireSchema
     | InformationalSchema;
-  schedule?: CreateComponentScheduleDto;
+  schedule?: ComponentScheduleDto;
 }
