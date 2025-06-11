@@ -243,28 +243,6 @@
           "nullable": false,
           "length": 255,
           "mappedType": "string"
-        },
-        "grouping": {
-          "name": "grouping",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "enumItems": [
-            "all",
-            "any"
-          ],
-          "mappedType": "enum"
-        },
-        "parent_id": {
-          "name": "parent_id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "uuid"
         }
       },
       "name": "participation_criteria",
@@ -293,19 +271,6 @@
             "id"
           ],
           "referencedTableName": "public.study_definition",
-          "updateRule": "cascade"
-        },
-        "participation_criteria_parent_id_foreign": {
-          "constraintName": "participation_criteria_parent_id_foreign",
-          "columnNames": [
-            "parent_id"
-          ],
-          "localTableName": "public.participation_criteria",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.participation_criteria",
-          "deleteRule": "set null",
           "updateRule": "cascade"
         }
       },
