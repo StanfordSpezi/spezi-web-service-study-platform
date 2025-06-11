@@ -2,8 +2,8 @@ import path from "path";
 import { promises as fs } from "fs";
 import { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
-import { ComponentDefinition } from "@modules/study-definition/entities/component-definition";
 import { ComponentType } from "@modules/study-definition/enum/component-type";
+import { ComponentDefinition } from "@/modules/study-definition/entities/component-definition.entity";
 
 const componentSeedConfig: Record<
   string,
@@ -29,7 +29,7 @@ const componentSeedConfig: Record<
 export class ComponentDefinitionSeed extends Seeder {
   async run(em: EntityManager): Promise<void> {
     const now = new Date();
-    const schemaRoot = path.resolve(__dirname, "../../../schemas/json");
+    const schemaRoot = path.resolve(__dirname, "../../../schemas");
 
     const folders = await fs.readdir(schemaRoot);
 
