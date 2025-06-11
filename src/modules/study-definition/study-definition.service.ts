@@ -5,20 +5,80 @@
 // SPDX-License-Identifier: MIT
 
 import { EntityManager, wrap } from "@mikro-orm/core";
-import { Injectable, BadRequestException } from "@nestjs/common";
-import { StudyDefinitionDto } from "./dto/study-definition.dto";
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from "@nestjs/common";
+import { CreateStudyDefinitionDto } from "./dto/create-study-definition.dto";
 import { StudyDefinition } from "./entities/study-definition.entity";
 import { EnrollmentCondition } from "./entities/enrollment-condition.entity";
 import { ParticipationCriteria } from "./entities/participation-criteria.entity";
 import { ComponentInstance } from "./entities/component-instance.entity";
 import { ComponentSchedule } from "./entities/component-schedule.entity";
 import { ComponentDefinition } from "./entities/component-definition.entity";
+import { GetComponentInstanceDto } from "./dto/get-component-instance.dto";
+import { GetStudyDefinitionDto } from "./dto/get-study-definition.dto";
+import { RepeatMetadata } from "./dto/component-schedule.dto";
 
 @Injectable()
 export class StudyDefinitionService {
   constructor(private readonly em: EntityManager) {}
 
-  async create(dto: StudyDefinitionDto): Promise<string> {
+  async getById(id: string): Promise<GetStudyDefinitionDto> {
+    const study = await this.em.findOne(StudyDefinition, id, {
+      populate: [
+        "enrollmentCondition",
+        "participationCriteria",
+        "componentInstances",
+        "componentInstances.schedule",
+        "componentInstances.componentDefinition",
+      ],
+    });
+
+    if (!study) {
+      throw new NotFoundException(`StudyDefinition with ID ${id} not found`);
+    }
+
+    return {
+      id: study.id,
+      schemaVersion: study.schemaVersion,
+      title: study.title,
+      shortTitle: study.shortTitle,
+      explanationText: study.explanationText,
+      shortExplanationText: study.shortExplanationText,
+      iconSymbol: study.iconSymbol,
+      enrollmentCondition: study.enrollmentCondition
+        ? {
+            requiresInvite: study.enrollmentCondition.requiresInvite,
+            inviteUrl: study.enrollmentCondition.inviteUrl,
+          }
+        : undefined,
+      participationCriteria: study.participationCriteria
+        .getItems()
+        .map((pc) => ({
+          type: pc.type,
+          value: pc.value,
+        })),
+      components: study.componentInstances
+        .getItems()
+        .map<GetComponentInstanceDto>((ci) => ({
+          id: ci.id,
+          componentDefinitionId: ci.componentDefinition.id,
+          displayOrder: ci.displayOrder,
+          details: ci.details,
+          schedule: ci.schedule
+            ? {
+                completionPolicy: ci.schedule.completionPolicy,
+                startOffsetDays: ci.schedule.startOffsetDays,
+                repeatMetadata: ci.schedule.repeatMetadata as RepeatMetadata,
+              }
+            : undefined,
+        })),
+    };
+  }
+
+  async create(dto: CreateStudyDefinitionDto): Promise<string> {
     return await this.em.transactional(async (em) => {
       // Create base study entity
       const study = new StudyDefinition();
