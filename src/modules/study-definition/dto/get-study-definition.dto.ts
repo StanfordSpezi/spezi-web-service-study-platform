@@ -1,8 +1,9 @@
-import { ComponentInstanceDto } from "./component-instance.dto";
+import { GetComponentInstanceDto } from "./get-component-instance.dto";
 import { EnrollmentConditionDto } from "./enrollment-condition.dto";
 import { ParticipationCriteriaDto } from "./participation-criteria.dto";
 
-export class StudyDefinitionDto {
+export class GetStudyDefinitionDto {
+  id: string;
   schemaVersion: string;
   title: string;
   shortTitle: string;
@@ -11,5 +12,5 @@ export class StudyDefinitionDto {
   iconSymbol: string;
   enrollmentCondition?: EnrollmentConditionDto;
   participationCriteria?: ParticipationCriteriaDto[];
-  components: ComponentInstanceDto[];
+  components: GetComponentInstanceDto[];
 }

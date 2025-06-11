@@ -9,7 +9,8 @@ import { InformationalSchema } from "@/types/informational-schema.dto";
   QuestionnaireSchema,
   InformationalSchema,
 )
-export class ComponentInstanceDto {
+export class GetComponentInstanceDto {
+  id: string;
   componentDefinitionId: string;
   displayOrder: number;
   @ApiProperty({
@@ -20,9 +21,12 @@ export class ComponentInstanceDto {
     ],
     description: "Instance-specific config schema, based on component `type`",
   })
-  details:
-    | HealthDataCollectionSchema
-    | QuestionnaireSchema
-    | InformationalSchema;
+  details: Record<string, any>;
   schedule?: ComponentScheduleDto;
+  componentDefinition?: {
+    id: string;
+    title: string;
+    type: string;
+    schemaVersion: string;
+  };
 }
