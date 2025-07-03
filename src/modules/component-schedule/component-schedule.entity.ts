@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, OneToOne, Property } from "@mikro-orm/core";
-import { ComponentInstance } from "./component-instance.entity";
+import { ComponentInstance } from "../component-instance/component-instance.entity";
 
 @Entity()
 export class ComponentSchedule {
@@ -7,7 +7,7 @@ export class ComponentSchedule {
   id: string;
 
   @OneToOne(() => ComponentInstance)
-  componentInstance: ComponentInstance;
+  componentInstance!: ComponentInstance;
 
   @Property()
   completionPolicy: string;

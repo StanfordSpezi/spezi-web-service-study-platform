@@ -7,9 +7,12 @@
 import { Module } from "@nestjs/common";
 import { StudyDefinitionController } from "./study-definition.controller";
 import { StudyDefinitionService } from "./study-definition.service";
+import { MikroOrmModule } from "@mikro-orm/nestjs";
+import { StudyDefinition } from "./study-definition.entity";
 
 @Module({
-  controllers: [StudyDefinitionController],
+  imports: [MikroOrmModule.forFeature([StudyDefinition])],
   providers: [StudyDefinitionService],
+  controllers: [StudyDefinitionController],
 })
 export class StudyDefinitionModule {}

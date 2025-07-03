@@ -2,8 +2,8 @@ import path from "path";
 import { promises as fs } from "fs";
 import { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
-import { ComponentType } from "@modules/study-definition/enum/component-type";
-import { ComponentDefinition } from "@/modules/study-definition/entities/component-definition.entity";
+import { ComponentType } from "@/modules/enum/component-type";
+import { ComponentDefinition } from "@/modules/component-definition/component-definition.entity";
 
 const componentSeedConfig: Record<
   string,

@@ -1,5 +1,5 @@
 import { HealthDataCollectionSchema } from "@/types/health-data-collection-schema.dto";
-import { ComponentScheduleDto } from "./component-schedule.dto";
+// import { ComponentScheduleDto } from "./component-schedule.dto";
 import { ApiExtraModels, ApiProperty, getSchemaPath } from "@nestjs/swagger";
 import { QuestionnaireSchema } from "@/types/questionnaire-schema.dto";
 import { InformationalSchema } from "@/types/informational-schema.dto";
@@ -22,7 +22,7 @@ export class GetComponentInstanceDto {
     description: "Instance-specific config schema, based on component `type`",
   })
   details: Record<string, any>;
-  schedule?: ComponentScheduleDto;
+  // schedule?: ComponentScheduleDto;
   componentDefinition?: {
     id: string;
     title: string;

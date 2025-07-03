@@ -5,9 +5,9 @@ import {
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { ComponentDefinition } from "./component-definition.entity";
-import { ComponentSchedule } from "./component-schedule.entity";
-import { StudyDefinition } from "./study-definition.entity";
+import { StudyDefinition } from "../study-definition/study-definition.entity";
+import { ComponentDefinition } from "../component-definition/component-definition.entity";
+import { ComponentSchedule } from "../component-schedule/component-schedule.entity";
 
 @Entity()
 export class ComponentInstance {
@@ -34,6 +34,7 @@ export class ComponentInstance {
 
   @OneToOne(() => ComponentSchedule, (schedule) => schedule.componentInstance, {
     nullable: true,
+    mappedBy: "componentInstance",
   })
   schedule?: ComponentSchedule;
 }

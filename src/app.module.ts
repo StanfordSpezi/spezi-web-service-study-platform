@@ -11,6 +11,11 @@ import { ConfigModule } from "@nestjs/config";
 import mikroOrmConfig from "@database/mikro-orm.config";
 import { HealthCheckModule } from "@modules/health-check/health-check.module";
 import { StudyDefinitionModule } from "@modules/study-definition/study-definition.module";
+import { ComponentInstanceModule } from "./modules/component-instance/component-instance.module";
+import { ComponentDefinitionModule } from "./modules/component-definition/component-definition.module";
+import { EnrollmentConditionModule } from "./modules/entrollment-condition/enrollment-condition.module";
+import { ParticipationCriteriaModule } from "./modules/participation-criteria/participation-criteria.module";
+import { ComponentScheduleModule } from "./modules/component-schedule/component-schedule.module";
 
 @Module({
   imports: [
@@ -18,6 +23,11 @@ import { StudyDefinitionModule } from "@modules/study-definition/study-definitio
     MikroOrmModule.forRoot(mikroOrmConfig as MikroOrmModuleSyncOptions),
     HealthCheckModule,
     StudyDefinitionModule,
+    ComponentInstanceModule,
+    ComponentDefinitionModule,
+    ComponentScheduleModule,
+    EnrollmentConditionModule,
+    ParticipationCriteriaModule,
   ],
   controllers: [],
   providers: [],

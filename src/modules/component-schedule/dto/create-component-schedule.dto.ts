@@ -1,4 +1,5 @@
-export class ComponentScheduleDto {
+export class CreateComponentScheduleDto {
+  componentInstance: string;
   completionPolicy: string;
   startOffsetDays: number;
   repeatMetadata?: RepeatMetadata;

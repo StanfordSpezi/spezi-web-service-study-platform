@@ -1,5 +1,5 @@
 import { Entity, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
-import { StudyDefinition } from "./study-definition.entity";
+import { StudyDefinition } from "../study-definition/study-definition.entity";
 
 @Entity()
 export class EnrollmentCondition {

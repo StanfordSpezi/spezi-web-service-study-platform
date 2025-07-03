@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, ManyToOne, Property, Enum } from "@mikro-orm/core";
-import { StudyDefinition } from "./study-definition.entity";
+import { StudyDefinition } from "../study-definition/study-definition.entity";
 import { ParticipationCriteriaType } from "../enum/participation-criteria-type";
 
 @Entity()
