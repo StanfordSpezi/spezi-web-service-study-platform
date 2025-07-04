@@ -73,6 +73,11 @@ export class ComponentScheduleService {
 
   async remove(id: string): Promise<void> {
     const schedule = await this.findOne(id);
+
+    if (!schedule) {
+      throw new NotFoundException(`ComponentSchedule ${id} not found`);
+    }
+
     await this.em.removeAndFlush(schedule);
   }
 }
