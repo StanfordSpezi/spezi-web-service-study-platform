@@ -7,6 +7,8 @@ import { CreateComponentInstanceDto } from "./dto/create-component-instance.dto"
 import { UpdateComponentInstanceDto } from "./dto/update-component-instance.dto";
 import { StudyDefinition } from "../study-definition/study-definition.entity";
 import { ComponentDefinition } from "../component-definition/component-definition.entity";
+import { ComponentInstanceDto } from "./dto/component-instance.dto";
+import { ComponentInstanceMapper } from "./component-instance.mapper";
 
 @Injectable()
 export class ComponentInstanceService {
@@ -16,30 +18,36 @@ export class ComponentInstanceService {
     private readonly repo: EntityRepository<ComponentInstance>,
   ) {}
 
-  async findAll(): Promise<ComponentInstance[]> {
-    return this.repo.findAll({
+  async findAll(): Promise<ComponentInstanceDto[]> {
+    const instances: ComponentInstance[] = await this.repo.findAll({
       populate: ["studyDefinition", "componentDefinition", "schedule"],
     });
+
+    return instances.map((instance) => ComponentInstanceMapper.toDto(instance));
   }
 
-  async findOne(id: string): Promise<ComponentInstance> {
-    const entity = await this.repo.findOne(id, {
+  async findOne(id: string): Promise<ComponentInstanceDto> {
+    const instance: ComponentInstance | null = await this.repo.findOne(id, {
       populate: ["studyDefinition", "componentDefinition", "schedule"],
     });
-    if (!entity)
+
+    if (!instance) {
       throw new NotFoundException(`ComponentInstance ${id} not found`);
-    return entity;
+    }
+
+    return ComponentInstanceMapper.toDto(instance);
   }
 
-  async create(dto: CreateComponentInstanceDto): Promise<ComponentInstance> {
-    // Get references to related entities without querying the DB
-    const studyRef = this.em.getReference(StudyDefinition, dto.studyDefinition);
+  async create(dto: CreateComponentInstanceDto): Promise<ComponentInstanceDto> {
+    const studyRef = this.em.getReference(
+      StudyDefinition,
+      dto.studyDefinitionId,
+    );
     const componentRef = this.em.getReference(
       ComponentDefinition,
-      dto.componentDefinition,
+      dto.componentDefinitionId,
     );
 
-    // Create the ComponentInstance with references and data
     const instance = this.repo.create({
       studyDefinition: studyRef,
       componentDefinition: componentRef,
@@ -49,24 +57,40 @@ export class ComponentInstanceService {
       updatedAt: new Date(),
     });
 
-    // Persist to database
     await this.em.persistAndFlush(instance);
-
-    return instance;
+    return ComponentInstanceMapper.toDto(instance);
   }
 
   async update(
     id: string,
     dto: UpdateComponentInstanceDto,
-  ): Promise<ComponentInstance> {
-    const instance = await this.findOne(id);
-    this.repo.assign(instance, dto);
+  ): Promise<ComponentInstanceDto> {
+    const instance: ComponentInstance | null = await this.repo.findOne(id, {
+      populate: ["studyDefinition", "componentDefinition", "schedule"],
+    });
+
+    if (!instance) {
+      throw new NotFoundException(`ComponentInstance ${id} not found`);
+    }
+
+    // Do NOT update studyDefinition/componentDefinition
+    this.repo.assign(instance, {
+      details: dto.details,
+      displayOrder: dto.displayOrder,
+      updatedAt: new Date(),
+    });
+
     await this.em.flush();
-    return instance;
+    return ComponentInstanceMapper.toDto(instance);
   }
 
   async remove(id: string): Promise<void> {
-    const instance = await this.findOne(id);
+    const instance: ComponentInstance | null = await this.repo.findOne(id);
+
+    if (!instance) {
+      throw new NotFoundException(`ComponentInstance ${id} not found`);
+    }
+
     await this.em.removeAndFlush(instance);
   }
 }
