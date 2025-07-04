@@ -5,6 +5,8 @@ import { ParticipationCriteria } from "./participation-criteria.entity";
 import { CreateParticipationCriteriaDto } from "./dto/create-participation-criteria.dto";
 import { UpdateParticipationCriteriaDto } from "./dto/update-participation-criteria.dto";
 import { StudyDefinition } from "../study-definition/study-definition.entity";
+import { ParticipationCriteriaDto } from "./dto/participation-criteria.dto";
+import { ParticipationCriteriaMapper } from "./participation-criteria.mapper";
 
 @Injectable()
 export class ParticipationCriteriaService {
@@ -14,22 +16,28 @@ export class ParticipationCriteriaService {
     private readonly repo: EntityRepository<ParticipationCriteria>,
   ) {}
 
-  async findAll(): Promise<ParticipationCriteria[]> {
-    return this.repo.findAll({ populate: ["studyDefinition"] });
+  async findAll(): Promise<ParticipationCriteriaDto[]> {
+    const criteriaList: ParticipationCriteria[] = await this.repo.findAll({
+      populate: ["studyDefinition"],
+    });
+
+    return criteriaList.map((criteria) =>
+      ParticipationCriteriaMapper.toDto(criteria),
+    );
   }
 
-  async findOne(id: string): Promise<ParticipationCriteria> {
+  async findOne(id: string): Promise<ParticipationCriteriaDto> {
     const criteria = await this.repo.findOne(id, {
       populate: ["studyDefinition"],
     });
     if (!criteria)
       throw new NotFoundException(`ParticipationCriteria ${id} not found`);
-    return criteria;
+    return ParticipationCriteriaMapper.toDto(criteria);
   }
 
   async create(
     dto: CreateParticipationCriteriaDto,
-  ): Promise<ParticipationCriteria> {
+  ): Promise<ParticipationCriteriaDto> {
     const studyRef = this.em.getReference(StudyDefinition, dto.studyDefinition);
 
     const criteria = this.repo.create({
@@ -39,33 +47,38 @@ export class ParticipationCriteriaService {
     });
 
     await this.em.persistAndFlush(criteria);
-    return criteria;
+    return ParticipationCriteriaMapper.toDto(criteria);
   }
 
   async update(
     id: string,
     dto: UpdateParticipationCriteriaDto,
-  ): Promise<ParticipationCriteria> {
-    const criteria = await this.findOne(id);
+  ): Promise<ParticipationCriteriaDto> {
+    const criteria: ParticipationCriteria | null = await this.repo.findOne(id, {
+      populate: ["studyDefinition"],
+    });
 
-    if (dto.studyDefinition) {
-      criteria.studyDefinition = this.em.getReference(
-        StudyDefinition,
-        dto.studyDefinition,
-      );
+    if (!criteria) {
+      throw new NotFoundException(`ParticipationCriteria ${id} not found`);
     }
 
+    // Do NOT update studyDefinition
     this.repo.assign(criteria, {
       type: dto.type,
       value: dto.value,
     });
 
     await this.em.flush();
-    return criteria;
+    return ParticipationCriteriaMapper.toDto(criteria);
   }
 
   async remove(id: string): Promise<void> {
-    const criteria = await this.findOne(id);
+    const criteria: ParticipationCriteria | null = await this.repo.findOne(id);
+
+    if (!criteria) {
+      throw new NotFoundException(`ParticipationCriteria ${id} not found`);
+    }
+
     await this.em.removeAndFlush(criteria);
   }
 }
